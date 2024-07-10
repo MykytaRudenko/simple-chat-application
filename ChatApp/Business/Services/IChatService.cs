@@ -1,4 +1,5 @@
-﻿using Data.Models;
+﻿using Business.DTOs;
+using Data.Models;
 
 namespace Business.Services;
 
@@ -6,6 +7,7 @@ public interface IChatService
 {
     Task<IEnumerable<Chat>> GetChatsAsync();
     Task<Chat> GetChatByIdAsync(Guid id);
-    Task<Chat> CreateChatAsync(Chat chat);
+    Task<Chat> CreateChatAsync(CreateChatDto chatDto);
     Task DeleteChatAsync(Guid id);
+    Task AddUserToChat(Guid chatId, Guid userId);
 }

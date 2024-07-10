@@ -12,16 +12,16 @@ public class Chat
     [Required] 
     public string Title { get; set; } = string.Empty;
         
+    [Required]
     public Guid CreatedById { get; set; }
+    
     [JsonIgnore]
     [ForeignKey(nameof(CreatedById))]
     public virtual User CreatedBy { get; set; }
         
     public DateTime CreatedAt { get; set; }
-
-    [JsonIgnore]
+    
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
-
-    [JsonIgnore] 
+    [JsonIgnore]
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

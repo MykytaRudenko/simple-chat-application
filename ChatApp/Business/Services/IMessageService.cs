@@ -1,8 +1,9 @@
-﻿using Data.Models;
+﻿using Business.DTOs;
+using Data.Models;
 
 namespace Business.Services;
 
 public interface IMessageService
 {
-    Task AddMessageToChatAsync(Message message);
+    Task AddMessageToChatAsync(AddMessageDto messageDto);
 }

@@ -14,15 +14,16 @@ public class Message
         
     [Required]
     public Guid UserId { get; set; }
-    [JsonIgnore]
+    
     [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; }
+    public virtual User? User { get; set; }
         
     [Required]
     public Guid ChatId { get; set; }
+    
     [JsonIgnore]
     [ForeignKey(nameof(ChatId))]
-    public virtual Chat Chat { get; set; }
+    public virtual Chat? Chat { get; set; }
 
     public DateTime CreatedAt { get; set; }
 }

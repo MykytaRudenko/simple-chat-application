@@ -10,8 +10,8 @@ public class ChatRepository : Repository<Chat>, IChatRepository
     {
     }
 
-    public async Task<IEnumerable<Chat>> GetChatsWithMessagesAsync()
+    public async Task<Chat> GetChatWithMessagesAsync(Guid chatId)
     {
-        return await _context.Chats.Include(c => c.Messages).ToListAsync();
+        return await _context.Chats.Include(c => c.Messages).ThenInclude(m => m.User).FirstOrDefaultAsync(chat => chat.Id == chatId);
     }
 }

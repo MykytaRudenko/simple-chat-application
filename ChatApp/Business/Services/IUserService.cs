@@ -6,5 +6,5 @@ public interface IUserService
 {
     Task<IEnumerable<User>> GetUsersAsync();
     Task<User> GetUserByIdAsync(Guid id);
-    Task<User> CreateUserAsync(User user);
+    Task<User> CreateUserAsync(string login);
 }

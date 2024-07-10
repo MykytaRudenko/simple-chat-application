@@ -22,8 +22,14 @@ public class UserService : IUserService
         return await _unitOfWork.Users.GetByIdAsync(id);
     }
 
-    public async Task<User> CreateUserAsync(User user)
+    public async Task<User> CreateUserAsync(string login)
     {
+        var user = new User()
+        {
+            Id = Guid.NewGuid(),
+            Login = login
+        };
+        
         await _unitOfWork.Users.AddAsync(user);
         await _unitOfWork.CompleteAsync();
         return user;
