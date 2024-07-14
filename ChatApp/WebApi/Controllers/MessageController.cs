@@ -16,8 +16,6 @@ public class MessageController : ControllerBase
         _messageService = messageService;
     }
 
-    
-
     [HttpPost]
     public async Task<ActionResult<Message>> AddMessageToChat([FromBody] AddMessageDto message)
     {

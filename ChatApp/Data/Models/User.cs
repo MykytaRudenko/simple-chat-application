@@ -14,9 +14,6 @@ public class User
     public string Login { get; set; } = string.Empty;
 
     [JsonIgnore]
-    public virtual ICollection<Chat> Chats { get; set; } = new List<Chat>();
-
-    [JsonIgnore]
     public virtual ICollection<Chat> CreatedChats { get; set; } = new List<Chat>();
 
     [JsonIgnore]

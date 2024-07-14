@@ -34,10 +34,6 @@ public class ApiDbContext : DbContext
                 .HasForeignKey(chat => chat.CreatedById);
 
             modelBuilder.Entity<Chat>()
-                .HasMany<User>(chat => chat.Users)
-                .WithMany(u => u.Chats);
-
-            modelBuilder.Entity<Chat>()
                 .HasMany<Message>(chat => chat.Messages)
                 .WithOne(m => m.Chat)
                 .HasForeignKey(m => m.ChatId);

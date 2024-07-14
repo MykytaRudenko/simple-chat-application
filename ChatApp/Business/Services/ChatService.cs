@@ -1,4 +1,5 @@
 ﻿using Business.DTOs;
+using Business.Validators;
 using Data.Models;
 using Data.UnitOfWork;
 
@@ -25,6 +26,14 @@ public class ChatService : IChatService
 
     public async Task<Chat> CreateChatAsync(CreateChatDto chatDto)
     {
+        var validator = new CreateChatValidator(_unitOfWork);
+        var validationResults = validator.Validate(chatDto);
+
+        if (!validationResults.IsValid)
+        {
+            return null;
+        }
+        
         var chat = new Chat()
         {
             Id = Guid.NewGuid(),
@@ -44,17 +53,6 @@ public class ChatService : IChatService
         if (chat != null)
         {
             _unitOfWork.Chats.RemoveAsync(chat);
-            await _unitOfWork.CompleteAsync();
-        }
-    }
-
-    public async Task AddUserToChat(Guid chatId, Guid userId)
-    {
-        var chat = await _unitOfWork.Chats.GetByIdAsync(chatId);
-        var user = await _unitOfWork.Users.GetByIdAsync(userId);
-        if (chat != null && user != null)
-        {
-            chat.Users.Add(user);
             await _unitOfWork.CompleteAsync();
         }
     }

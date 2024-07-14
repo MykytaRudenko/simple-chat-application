@@ -9,5 +9,4 @@ public interface IChatService
     Task<Chat> GetChatByIdAsync(Guid id);
     Task<Chat> CreateChatAsync(CreateChatDto chatDto);
     Task DeleteChatAsync(Guid id);
-    Task AddUserToChat(Guid chatId, Guid userId);
 }

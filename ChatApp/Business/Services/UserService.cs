@@ -1,4 +1,6 @@
-﻿using Data.Models;
+﻿using Business.DTOs;
+using Business.Validators;
+using Data.Models;
 using Data.UnitOfWork;
 
 namespace Business.Services;
@@ -22,12 +24,20 @@ public class UserService : IUserService
         return await _unitOfWork.Users.GetByIdAsync(id);
     }
 
-    public async Task<User> CreateUserAsync(string login)
+    public async Task<User> CreateUserAsync(CreateUserDto createUserDto)
     {
+        var validator = new CreateUserValidator(_unitOfWork);
+        var validationResults = validator.Validate(createUserDto);
+
+        if (!validationResults.IsValid)
+        {
+            return null;
+        }
+        
         var user = new User()
         {
             Id = Guid.NewGuid(),
-            Login = login
+            Login = createUserDto.Login
         };
         
         await _unitOfWork.Users.AddAsync(user);

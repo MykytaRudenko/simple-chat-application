@@ -1,4 +1,5 @@
-﻿using Business.Services;
+﻿using Business.DTOs;
+using Business.Services;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,9 +35,15 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<User>> CreateUser([FromBody] string login)
+    public async Task<ActionResult<User>> CreateUser([FromBody] CreateUserDto createUserDto)
     {
-        var createdUser = await _userService.CreateUserAsync(login);
+        var createdUser = await _userService.CreateUserAsync(createUserDto);
+
+        if (createdUser == null)
+        {
+            return ValidationProblem();
+        }
+        
         return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser);
     }
 }

@@ -34,9 +34,15 @@ public class ChatController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Chat>> CreateChat([FromBody] CreateChatDto chat)
+    public async Task<ActionResult<Chat>> CreateChat([FromBody] CreateChatDto chatDto)
     {
-        var createdChat = await _chatService.CreateChatAsync(chat);
+        var createdChat = await _chatService.CreateChatAsync(chatDto);
+
+        if (createdChat == null)
+        {
+            return ValidationProblem();
+        }
+        
         return CreatedAtAction(nameof(GetChat), new { id = createdChat.Id }, createdChat);
     }
 
@@ -45,12 +51,5 @@ public class ChatController : ControllerBase
     {
         await _chatService.DeleteChatAsync(id);
         return NoContent();
-    }
-
-    [HttpPost("add-user")]
-    public async Task<ActionResult> AddUserToChat(Guid chatId, Guid userId)
-    {
-        await _chatService.AddUserToChat(chatId, userId);
-        return Ok();
     }
 }

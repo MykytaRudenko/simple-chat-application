@@ -22,6 +22,4 @@ public class Chat
     public DateTime CreatedAt { get; set; }
     
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
-    [JsonIgnore]
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

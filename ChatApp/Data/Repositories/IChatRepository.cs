@@ -5,4 +5,5 @@ namespace Data.Repositories;
 public interface IChatRepository : IRepository<Chat>
 {
     Task<Chat> GetChatWithMessagesAsync(Guid chatId);
+    Task<Chat> GetByTitle(string title);
 }

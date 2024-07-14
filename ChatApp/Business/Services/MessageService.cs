@@ -1,4 +1,5 @@
 ﻿using Business.DTOs;
+using Business.Validators;
 using Data.Models;
 using Data.UnitOfWork;
 
@@ -15,21 +16,24 @@ public class MessageService : IMessageService
 
     public async Task AddMessageToChatAsync(AddMessageDto messageDto)
     {
-        var chat = await _unitOfWork.Chats.GetByIdAsync(messageDto.ChatId);
-        var user = await _unitOfWork.Users.GetByIdAsync(messageDto.UserId);
-        if (chat != null && user != null)
+        var validator = new AddMessageValidator(_unitOfWork);
+        var validationResults = validator.Validate(messageDto);
+
+        if (!validationResults.IsValid)
         {
-            var message = new Message()
-            {
-                Id = Guid.NewGuid(),
-                Text = messageDto.Text,
-                ChatId = messageDto.ChatId,
-                UserId = messageDto.UserId,
-                CreatedAt = DateTime.Now.ToUniversalTime()
-            };
-            
-            await _unitOfWork.Messages.AddAsync(message);
-            await _unitOfWork.CompleteAsync();
+            return;
         }
+        
+        var message = new Message()
+        {
+            Id = Guid.NewGuid(),
+            Text = messageDto.Text,
+            ChatId = messageDto.ChatId,
+            UserId = messageDto.UserId,
+            CreatedAt = DateTime.Now.ToUniversalTime()
+        };
+            
+        await _unitOfWork.Messages.AddAsync(message);
+        await _unitOfWork.CompleteAsync();
     }
 }
